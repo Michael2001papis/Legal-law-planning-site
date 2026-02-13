@@ -1,5 +1,29 @@
+# Dependencies - אל תעלה (משקל כבד)
 node_modules
+*/node_modules
+client/node_modules
+server/node_modules
+
+# Build output
 dist
+client/dist
+build
+
+# Environment - רגיש
 .env
+.env.local
+.env.*.local
+
+# Logs & cache
 *.log
+npm-debug.log*
+.cache
+.vite
+
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE (אופציונלי - אם רוצה להעלות הגדרות מחק את השורות הבאות)
+# .vscode
+# .idea

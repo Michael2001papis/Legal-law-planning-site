@@ -1,0 +1,4 @@
+# Ensure consistent line endings on Windows (helps avoid upload issues)
+* text=auto eol=lf
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
