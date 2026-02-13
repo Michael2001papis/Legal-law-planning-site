@@ -19,8 +19,12 @@ export default function MovieRow({ title, items, showProgress }) {
       <div className="netflix-row__header">
         <h2 className="netflix-row__title">{title}</h2>
         <div className="netflix-row__arrows">
-          <button onClick={() => scroll(1)} aria-label="הבא">‹</button>
-          <button onClick={() => scroll(-1)} aria-label="הקודם">›</button>
+          <button type="button" className="netflix-row__arrow" onClick={() => scroll(1)} aria-label="הבא">
+            <span className="netflix-row__arrow-icon">‹</span>
+          </button>
+          <button type="button" className="netflix-row__arrow" onClick={() => scroll(-1)} aria-label="הקודם">
+            <span className="netflix-row__arrow-icon">›</span>
+          </button>
         </div>
       </div>
       <div className="netflix-row__track" ref={rowRef}>

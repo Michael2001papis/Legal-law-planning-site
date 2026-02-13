@@ -50,15 +50,21 @@ export default function Search() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <select value={genre} onChange={(e) => setGenre(e.target.value)}>
-            <option value="">כל הז'אנרים</option>
-            <option value="דרמה">דרמה</option>
-            <option value="קומדיה">קומדיה</option>
-            <option value="אקשן">אקשן</option>
-            <option value="מדע בדיוני">מדע בדיוני</option>
-            <option value="רומנטי">רומנטי</option>
-            <option value="מתח">מתח</option>
-          </select>
+          <div className="search-bar__genre-wrap">
+            <select
+              className="search-bar__select"
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}
+            >
+              <option value="">כל הז'אנרים</option>
+              <option value="דרמה">דרמה</option>
+              <option value="קומדיה">קומדיה</option>
+              <option value="אקשן">אקשן</option>
+              <option value="מדע בדיוני">מדע בדיוני</option>
+              <option value="רומנטי">רומנטי</option>
+              <option value="מתח">מתח</option>
+            </select>
+          </div>
         </div>
         {loading && <p className="search-loading">טוען...</p>}
         {movies.length > 0 && <MovieRow title={query || genre ? "תוצאות" : "כל הסרטים"} items={movies} />}

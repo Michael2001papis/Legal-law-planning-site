@@ -380,6 +380,7 @@ input, select {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  gap: 16px;
 }
 
 .netflix-row__title {
@@ -387,31 +388,43 @@ input, select {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .netflix-row__arrows {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
-.netflix-row__arrows button {
-  width: 44px;
-  height: 44px;
+.netflix-row__arrow {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: rgba(6, 182, 212, 0.15);
-  border: 1px solid rgba(6, 182, 212, 0.25);
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.2);
   color: var(--accent);
-  font-size: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.netflix-row__arrows button:hover {
+.netflix-row__arrow:hover {
   background: var(--accent);
   color: var(--bg-dark);
-  transform: scale(1.08);
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.netflix-row__arrow:active {
+  transform: scale(0.98);
+}
+
+.netflix-row__arrow-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 600;
 }
 
 .netflix-row__track {
@@ -918,13 +931,46 @@ input, select {
 
 .search-bar input { flex: 1; min-width: 200px; }
 
-.search-bar select {
-  padding: 14px 18px;
+.search-bar__genre-wrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.search-bar__select {
+  padding: 14px 40px 14px 18px;
   border-radius: var(--radius-sm);
-  background: rgba(255,255,255,0.05);
+  background-color: rgba(255,255,255,0.06);
   color: var(--text);
   border: 1px solid rgba(255,255,255,0.12);
   font-size: 1rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306b6d4' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+[dir="rtl"] .search-bar__select {
+  padding: 14px 18px 14px 40px;
+  background-position: left 14px center;
+}
+
+.search-bar__select:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  background-color: rgba(6, 182, 212, 0.04);
+}
+
+.search-bar__select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.search-bar__select option {
+  background: var(--bg-elevated);
+  color: var(--text);
 }
 
 .empty-state {
