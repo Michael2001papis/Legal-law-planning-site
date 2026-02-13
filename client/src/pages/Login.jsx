@@ -4,17 +4,16 @@ import { authApi } from '../services/api';
 import { useAuth } from '../store/authStore';
 
 export default function Login() {
-  const { user } = useAuth();
+  const { user, setAuth } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (user) navigate('/home', { replace: true });
-  }, [user, navigate]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { setAuth } = useAuth();
+
+  useEffect(() => {
+    if (user) navigate('/home', { replace: true });
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

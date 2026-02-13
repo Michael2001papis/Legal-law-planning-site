@@ -6,18 +6,17 @@ import { useAuth } from '../store/authStore';
 const TERMS_VERSION = '1.0';
 
 export default function Register() {
-  const { user } = useAuth();
+  const { user, setAuth } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (user) navigate('/home', { replace: true });
-  }, [user, navigate]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { setAuth } = useAuth();
+
+  useEffect(() => {
+    if (user) navigate('/home', { replace: true });
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
