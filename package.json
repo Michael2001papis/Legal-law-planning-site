@@ -4,6 +4,7 @@
   "description": "עולם הסרטים של MP - פלטפורמת סרטים בסגנון Netflix ללימוד והדגמה",
   "private": true,
   "scripts": {
+    "postinstall": "npm install --prefix client && npm install --prefix server",
     "install:all": "npm install && cd client && npm install && cd ../server && npm install",
     "build": "npm run build:server && npm run build:client",
     "build:client": "cd client && npm run build",
