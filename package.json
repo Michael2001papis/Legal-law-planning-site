@@ -1,0 +1,19 @@
+{
+  "name": "mp-movies-world",
+  "version": "1.0.0",
+  "description": "עולם הסרטים של MP - פלטפורמת סרטים בסגנון Netflix ללימוד והדגמה",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build": "npm run build:server && npm run build:client",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
