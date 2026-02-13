@@ -27,6 +27,7 @@ export default function AdminUsers() {
         {loading ? (
           <p>טוען...</p>
         ) : (
+          <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
               <tr>
@@ -67,6 +68,7 @@ export default function AdminUsers() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </Layout>

@@ -7,6 +7,7 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -21,13 +22,32 @@ export default function Layout({ children }) {
     return () => window.removeEventListener('click', close);
   }, []);
 
+  useEffect(() => {
+    if (mobileNavOpen) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileNavOpen]);
+
+  const closeMobileNav = () => setMobileNavOpen(false);
   const handleLogout = () => {
     logout();
     setMenuOpen(false);
+    setMobileNavOpen(false);
     navigate('/auth/login');
   };
 
   const initials = (user?.name || '?').split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase();
+
+  const navLinks = (
+    <>
+      <NavLink to="/home" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`} onClick={closeMobileNav}>בית</NavLink>
+      <NavLink to="/search" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`} onClick={closeMobileNav}>חיפוש</NavLink>
+      <NavLink to="/my-list" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`} onClick={closeMobileNav}>הרשימה שלי</NavLink>
+      {user?.role !== 'user' && (
+        <NavLink to="/admin/dashboard" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`} onClick={closeMobileNav}>ניהול</NavLink>
+      )}
+    </>
+  );
 
   return (
     <div className="layout">
@@ -35,13 +55,25 @@ export default function Layout({ children }) {
         <Link to="/home" className="navbar__logo">
           <span className="navbar__logo-text">עולם הסרטים של MP</span>
         </Link>
-        <div className="navbar__center">
-          <NavLink to="/home" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`}>בית</NavLink>
-          <NavLink to="/search" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`}>חיפוש</NavLink>
-          <NavLink to="/my-list" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`}>הרשימה שלי</NavLink>
-          {user?.role !== 'user' && (
-            <NavLink to="/admin/dashboard" className={({ isActive }) => `navbar__link ${isActive ? 'active' : ''}`}>ניהול</NavLink>
-          )}
+        <div className="navbar__center">{navLinks}</div>
+        <button
+          type="button"
+          className="navbar__hamburger"
+          onClick={() => setMobileNavOpen((o) => !o)}
+          aria-label={mobileNavOpen ? 'סגור תפריט' : 'פתח תפריט'}
+          aria-expanded={mobileNavOpen}
+        >
+          <span className={`navbar__hamburger-line ${mobileNavOpen ? 'open' : ''}`} />
+          <span className={`navbar__hamburger-line ${mobileNavOpen ? 'open' : ''}`} />
+          <span className={`navbar__hamburger-line ${mobileNavOpen ? 'open' : ''}`} />
+        </button>
+        <div
+          className={`navbar__mobile-nav-overlay ${mobileNavOpen ? 'open' : ''}`}
+          onClick={closeMobileNav}
+          aria-hidden="true"
+        />
+        <div className={`navbar__mobile-nav ${mobileNavOpen ? 'open' : ''}`}>
+          {navLinks}
         </div>
         <div className="navbar__right" ref={menuRef}>
           <button
