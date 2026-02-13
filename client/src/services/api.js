@@ -4,6 +4,16 @@ function getToken() {
   return localStorage.getItem('accessToken');
 }
 
+async function safeJson(res) {
+  const text = await res.text();
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    const msg = res.ok ? 'Invalid response' : (text?.startsWith('<') ? 'שרת לא זמין - נסה שוב מאוחר יותר' : (text?.slice(0, 80) || res.statusText));
+    return { error: msg };
+  }
+}
+
 async function fetchApi(url, opts = {}) {
   const headers = { 'Content-Type': 'application/json', ...opts.headers };
   const token = getToken();
@@ -14,28 +24,30 @@ async function fetchApi(url, opts = {}) {
     if (refreshed) return fetchApi(url, opts);
     throw new Error('Session expired');
   }
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || res.statusText);
+  const data = await safeJson(res);
+  if (!res.ok) throw new Error(data.error || res.statusText || 'שגיאת שרת');
   return data;
 }
 
 export const authApi = {
   async login(email, password, deviceId, deviceName) {
-    const data = await fetch(API + '/auth/login', {
+    const res = await fetch(API + '/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, deviceId, deviceName }),
-    }).then(r => r.json());
+    });
+    const data = await safeJson(res);
     if (data.error) throw new Error(data.error);
     if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
     return data;
   },
   async register(payload) {
-    const data = await fetch(API + '/auth/register', {
+    const res = await fetch(API + '/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    }).then(r => r.json());
+    });
+    const data = await safeJson(res);
     if (data.error) throw new Error(data.error);
     if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken);
     return data;
@@ -44,11 +56,12 @@ export const authApi = {
     const rt = localStorage.getItem('refreshToken');
     if (!rt) return null;
     try {
-      const data = await fetch(API + '/auth/refresh', {
+      const res = await fetch(API + '/auth/refresh', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refreshToken: rt }),
-      }).then(r => r.json());
+      });
+      const data = await safeJson(res);
       if (data.accessToken) {
         localStorage.setItem('accessToken', data.accessToken);
         if (data.user) localStorage.setItem('user', JSON.stringify(data.user));

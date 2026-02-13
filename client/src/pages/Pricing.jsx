@@ -20,7 +20,9 @@ export default function Pricing() {
             </div>
           ))}
         </div>
-        <Link to="/auth/login" className="btn btn-primary">התחבר</Link>
+        <div style={{ textAlign: 'center', marginTop: 24 }}>
+          <Link to="/auth/login" className="btn btn-primary">התחבר</Link>
+        </div>
       </div>
     </div>
   );

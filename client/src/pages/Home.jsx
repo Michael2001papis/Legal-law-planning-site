@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <Layout>
       <div className="home">
-        <h1>שלום, {user?.name}</h1>
+        <h1>שלום, <span style={{ color: 'var(--accent)' }}>{user?.name}</span></h1>
         <p className="plan-badge">מנוי {user?.plan}</p>
         {continueWatching.length > 0 && (
           <section>
