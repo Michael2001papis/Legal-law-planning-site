@@ -15,11 +15,23 @@ export default function Login() {
     if (user) navigate('/home', { replace: true });
   }, [user, navigate]);
 
+  const DEMO_ACCOUNTS = {
+    'abc@abc.com': { password: 'abc123', user: { _id: 'demo1', name: 'משתמש רגיל', email: 'abc@abc.com', plan: 'basic', role: 'user' } },
+    'prim@abc.com': { password: 'P123', user: { _id: 'demo2', name: 'משתמש פרימיום', email: 'prim@abc.com', plan: 'platinum', role: 'user' } },
+    'd@abc.com': { password: 'D123', user: { _id: 'demo3', name: 'משתמש דיימונד', email: 'D@abc.com', plan: 'diamond', role: 'user' } },
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
+      const demo = DEMO_ACCOUNTS[email?.toLowerCase()?.trim()];
+      if (demo && demo.password === password) {
+        setAuth(demo.user, 'demo');
+        navigate('/home');
+        return;
+      }
       const deviceId = localStorage.getItem('deviceId') || crypto.randomUUID();
       localStorage.setItem('deviceId', deviceId);
       const data = await authApi.login(email, password, deviceId, navigator.userAgent);
