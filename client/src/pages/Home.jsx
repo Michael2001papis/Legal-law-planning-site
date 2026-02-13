@@ -5,6 +5,7 @@ import MovieRow from '../components/MovieRow';
 import { moviesApi } from '../services/api';
 import { userApi } from '../services/api';
 import { useAuth } from '../store/authStore';
+import { getDemoMovies } from '../data/demoMovies';
 
 export default function Home() {
   const { user } = useAuth();
@@ -24,7 +25,8 @@ export default function Home() {
         setMovies(moviesRes.movies || []);
         setContinueWatching(Array.isArray(cwRes) ? cwRes : []);
       } catch (_) {
-        setMovies([]);
+        setMovies(getDemoMovies(plan));
+        setContinueWatching([]);
       } finally {
         setLoading(false);
       }

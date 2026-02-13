@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import MovieRow from '../components/MovieRow';
 import { moviesApi } from '../services/api';
 import { useAuth } from '../store/authStore';
+import { getDemoMovies } from '../data/demoMovies';
 
 export default function Search() {
   const { user } = useAuth();
@@ -19,7 +20,12 @@ export default function Search() {
     setLoading(true);
     moviesApi.list({ query: query || undefined, genre: genre || undefined, plan: user?.plan })
       .then((r) => setMovies(r.movies || []))
-      .catch(() => setMovies([]))
+      .catch(() => {
+        let demo = getDemoMovies(user?.plan);
+        if (query) demo = demo.filter((m) => m.title?.toLowerCase().includes(query.toLowerCase()));
+        if (genre) demo = demo.filter((m) => m.genres?.includes(genre));
+        setMovies(demo);
+      })
       .finally(() => setLoading(false));
   }, [query, genre, user?.plan]);
 

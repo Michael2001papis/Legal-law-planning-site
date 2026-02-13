@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { moviesApi } from '../services/api';
 import { useAuth } from '../store/authStore';
+import { getDemoMovie, getDemoMovies } from '../data/demoMovies';
 
 export default function MoviePage() {
   const { id } = useParams();
@@ -21,7 +22,15 @@ export default function MoviePage() {
         return moviesApi.list({ plan: user?.plan || 'basic', limit: 6 }).catch(() => ({ movies: [] }));
       })
       .then((r) => setSimilar(r.movies?.filter((m) => m._id !== id) || []))
-      .catch((e) => setError(e.message))
+      .catch(() => {
+        const demo = getDemoMovie(id);
+        if (demo) {
+          setMovie(demo);
+          setSimilar(getDemoMovies(user?.plan).filter((m) => m._id !== id));
+        } else {
+          setError('סרט לא נמצא');
+        }
+      })
       .finally(() => setLoading(false));
   }, [id, user?.plan]);
 
