@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
+import MovieRow from '../components/MovieRow';
 import { userApi } from '../services/api';
 
 export default function MyList() {
@@ -16,25 +16,14 @@ export default function MyList() {
 
   return (
     <Layout>
-      <div className="my-list-page">
+      <div className="my-list-page animate-fade-in">
         <h1>הרשימה שלי</h1>
         {loading ? (
-          <div className="movie-row">
-            {[1,2,3,4].map((i) => (
-              <div key={i} className="skeleton movie-card" style={{ width: 180, height: 270 }} />
-            ))}
-          </div>
+          <div className="skeleton netflix-row__skeleton" style={{ margin: '0 48px' }} />
         ) : movies.length === 0 ? (
           <p className="empty-state">אין סרטים ברשימה. הוסף מסרטים.</p>
         ) : (
-          <div className="movie-row">
-            {movies.map((m) => (
-              <Link key={m._id} to={`/movie/${m._id}`} className="movie-card">
-                <img src={m.posterUrl || '/placeholder.png'} alt={m.title} loading="lazy" />
-                <span className="title">{m.title}</span>
-              </Link>
-            ))}
-          </div>
+          <MovieRow title="המועדפים שלי" items={movies} />
         )}
       </div>
     </Layout>

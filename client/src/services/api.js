@@ -17,7 +17,7 @@ async function safeJson(res) {
 async function fetchApi(url, opts = {}) {
   const headers = { 'Content-Type': 'application/json', ...opts.headers };
   const token = getToken();
-  if (token) headers.Authorization = `Bearer ${token}`;
+  if (token && token !== 'demo') headers.Authorization = `Bearer ${token}`;
   const res = await fetch(API + url, { ...opts, headers, credentials: 'include' });
   if (res.status === 401) {
     const refreshed = await authApi.refresh();

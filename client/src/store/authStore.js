@@ -6,7 +6,7 @@ const AUTH_KEY = 'mp-auth';
 
 export const useAuth = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       accessToken: null,
       setAuth: (user, accessToken) => {
@@ -16,7 +16,7 @@ export const useAuth = create(
       },
       logout: async () => {
         try {
-          await authApi.logout();
+          if (get().accessToken !== 'demo') await authApi.logout();
         } catch (_) {}
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');

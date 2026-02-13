@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
+import MovieRow from '../components/MovieRow';
 import { moviesApi } from '../services/api';
 import { userApi } from '../services/api';
 import { useAuth } from '../store/authStore';
@@ -10,6 +11,7 @@ export default function Home() {
   const [movies, setMovies] = useState([]);
   const [continueWatching, setContinueWatching] = useState([]);
   const [loading, setLoading] = useState(true);
+  const heroRef = useRef(null);
 
   useEffect(() => {
     const load = async () => {
@@ -30,15 +32,17 @@ export default function Home() {
     load();
   }, [user?.plan]);
 
+  const heroBg = movies[0]?.posterUrl || null;
+
   if (loading) {
     return (
       <Layout>
-        <div className="home-skeleton">
-          <div className="skeleton" style={{ height: 200, marginBottom: 20 }} />
-          <div className="movie-row">
-            {[1,2,3,4,5].map((i) => (
-              <div key={i} className="skeleton movie-card" style={{ width: 180, height: 270 }} />
-            ))}
+        <div className="home home--loading">
+          <div className="hero hero--skeleton">
+            <div className="skeleton hero__skeleton" />
+          </div>
+          <div className="home__rows">
+            <div className="skeleton netflix-row__skeleton" />
           </div>
         </div>
       </Layout>
@@ -48,36 +52,38 @@ export default function Home() {
   return (
     <Layout>
       <div className="home">
-        <h1>שלום, <span style={{ color: 'var(--accent)' }}>{user?.name}</span></h1>
-        <p className="plan-badge">מנוי {user?.plan}</p>
-        {continueWatching.length > 0 && (
-          <section>
-            <h2>המשך צפייה</h2>
-            <div className="movie-row">
-              {continueWatching.map(({ movie, progressSeconds }) => (
-                <Link key={movie?._id} to={`/movie/${movie?._id}`} className="movie-card">
-                  <img src={movie?.posterUrl || '/placeholder.png'} alt={movie?.title} />
-                  <span className="progress">{Math.round((progressSeconds || 0) / 60)} דקות</span>
-                </Link>
-              ))}
+        <section className="hero hero--home animate-fade-in" ref={heroRef}>
+          <div className="hero__bg" style={heroBg ? { backgroundImage: `url(${heroBg})` } : {}} />
+          <div className="hero__overlay" />
+          <div className="hero__content">
+            <h1 className="hero__title">
+              שלום, <span className="hero__title-accent">{user?.name}</span>
+            </h1>
+            <p className="hero__subtitle">גלה סרטים חדשים במנוי {user?.plan}. צפה עכשיו.</p>
+            <div className="hero__actions">
+              <Link to="/search" className="btn btn-primary btn--hero">
+                גלה סרטים
+              </Link>
+              <span className="hero__badge">מנוי {user?.plan}</span>
             </div>
-          </section>
-        )}
-        <section>
-          <h2>סרטים עבורך</h2>
-          {movies.length === 0 ? (
-            <p className="empty-state">אין סרטים זמינים במנוי שלך. עדכן את המנוי או חפש.</p>
-          ) : (
-            <div className="movie-row">
-              {movies.map((m) => (
-                <Link key={m._id} to={`/movie/${m._id}`} className="movie-card">
-                  <img src={m.posterUrl || '/placeholder.png'} alt={m.title} loading="lazy" />
-                  <span className="title">{m.title}</span>
-                </Link>
-              ))}
+          </div>
+        </section>
+
+        <div className="home__rows">
+          {continueWatching.length > 0 && (
+            <MovieRow title="המשך צפייה" items={continueWatching} showProgress />
+          )}
+          {movies.length > 0 && (
+            <MovieRow title="סרטים עבורך" items={movies} />
+          )}
+          {movies.length === 0 && continueWatching.length === 0 && (
+            <div className="home__empty animate-fade-in">
+              <h2>אין תוכן זמין</h2>
+              <p>עדכן את המנוי או חפש סרטים.</p>
+              <Link to="/search" className="btn btn-primary">חיפוש</Link>
             </div>
           )}
-        </section>
+        </div>
       </div>
     </Layout>
   );

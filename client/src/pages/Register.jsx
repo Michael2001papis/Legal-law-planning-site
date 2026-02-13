@@ -80,6 +80,11 @@ export default function Register() {
           כבר יש חשבון? <Link to="/auth/login">התחברות</Link>
         </p>
         <Link to="/pricing">תשלומי מנוי</Link>
+        <p className="auth-demo">
+          <button type="button" className="btn-demo" onClick={() => { setAuth({ _id: 'demo', name: name || 'משתמש דמו', email: email || 'demo@mp.com', plan: 'diamond', role: 'user' }, 'demo'); navigate('/home'); }}>
+            התנסה במצב דמו (ללא שרת)
+          </button>
+        </p>
       </div>
     </div>
   );

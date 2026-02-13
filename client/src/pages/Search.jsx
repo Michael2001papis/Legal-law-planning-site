@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
+import MovieRow from '../components/MovieRow';
 import { moviesApi } from '../services/api';
 import { useAuth } from '../store/authStore';
 
@@ -25,7 +25,7 @@ export default function Search() {
 
   return (
     <Layout>
-      <div className="search-page">
+      <div className="search-page animate-fade-in">
         <h1>חיפוש</h1>
         <div className="search-bar">
           <input
@@ -42,15 +42,14 @@ export default function Search() {
             <option value="מדע בדיוני">מדע בדיוני</option>
           </select>
         </div>
-        {loading && <p>טוען...</p>}
-        <div className="movie-row">
-          {movies.map((m) => (
-            <Link key={m._id} to={`/movie/${m._id}`} className="movie-card">
-              <img src={m.posterUrl || '/placeholder.png'} alt={m.title} loading="lazy" />
-              <span className="title">{m.title}</span>
-            </Link>
-          ))}
-        </div>
+        {loading && <p className="search-loading">טוען...</p>}
+        {movies.length > 0 && <MovieRow title="תוצאות" items={movies} />}
+        {!loading && !query && !genre && (
+          <p className="empty-state">התחל לחפש סרטים</p>
+        )}
+        {!loading && (query || genre) && movies.length === 0 && (
+          <p className="empty-state">לא נמצאו תוצאות</p>
+        )}
       </div>
     </Layout>
   );

@@ -62,6 +62,11 @@ export default function Login() {
           אין לך חשבון? <Link to="/auth/register">הרשמה</Link>
         </p>
         <Link to="/pricing">תשלומי מנוי</Link>
+        <p className="auth-demo">
+          <button type="button" className="btn-demo" onClick={() => { setAuth({ _id: 'demo', name: 'משתמש דמו', email: 'demo@mp.com', plan: 'diamond', role: 'user' }, 'demo'); navigate('/home'); }}>
+            התנסה במצב דמו (ללא שרת)
+          </button>
+        </p>
       </div>
     </div>
   );
