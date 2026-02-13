@@ -1,0 +1,22 @@
+# הפעלה אוטומטית - Push ל-main מפעיל Deploy ב-Vercel + Render
+# Vercel: מתחבר אוטומטית ל-GitHub (Frontend)
+# Render: התחברות ידנית פעם אחת - אז כל push = deploy אוטומטי
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+        working-directory: client
+      - run: npm run build
+        working-directory: client

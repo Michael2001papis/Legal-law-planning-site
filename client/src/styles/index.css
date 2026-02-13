@@ -1,18 +1,19 @@
 :root {
-  --bg-dark: #0a0a0f;
-  --bg-card: #16161d;
-  --bg-elevated: #1e1e28;
-  --text: #f5f5f7;
-  --text-muted: #a1a1aa;
-  --accent: #e50914;
-  --accent-hover: #ff1a27;
-  --accent-glow: rgba(229, 9, 20, 0.4);
-  --gradient-hero: linear-gradient(180deg, rgba(10,10,15,0.4) 0%, rgba(10,10,15,0.95) 60%, var(--bg-dark) 100%);
-  --gradient-card: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.9) 100%);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 8px 32px rgba(0,0,0,0.4);
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-dark: #0c0e14;
+  --bg-card: #151822;
+  --bg-elevated: #1c1f2a;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #06b6d4;
+  --accent-hover: #22d3ee;
+  --accent-dim: #0891b2;
+  --accent-glow: rgba(6, 182, 212, 0.35);
+  --gradient-hero: linear-gradient(180deg, rgba(12,14,20,0.3) 0%, rgba(12,14,20,0.95) 70%, var(--bg-dark) 100%);
+  --gradient-card: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 50%);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 12px 40px rgba(0,0,0,0.45);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -23,12 +24,12 @@
 
 body {
   margin: 0;
-  font-family: 'Heebo', 'Segoe UI', sans-serif;
+  font-family: 'Rubik', 'Segoe UI', sans-serif;
   background: var(--bg-dark);
   color: var(--text);
   min-height: 100vh;
   direction: rtl;
-  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(100, 60, 120, 0.15), transparent);
+  background-image: radial-gradient(ellipse 100% 60% at 50% -10%, rgba(6, 182, 212, 0.08), transparent 60%);
 }
 
 a {
@@ -67,15 +68,16 @@ input, select {
 }
 
 .btn-primary {
-  background: var(--accent);
-  color: white;
-  box-shadow: 0 4px 16px var(--accent-glow);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
+  color: #0c0e14;
+  font-weight: 700;
+  box-shadow: 0 4px 20px var(--accent-glow);
 }
 
 .btn-primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 24px var(--accent-glow);
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px var(--accent-glow);
 }
 
 .btn-primary:disabled {
@@ -85,19 +87,20 @@ input, select {
 }
 
 .btn-outline {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: var(--text);
+  background: rgba(6, 182, 212, 0.1);
+  border: 2px solid var(--accent);
+  color: var(--accent-hover);
 }
 
 .btn-outline:hover {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.5);
+  background: rgba(6, 182, 212, 0.2);
+  border-color: var(--accent-hover);
+  color: white;
 }
 
 /* Skeleton */
 .skeleton {
-  background: linear-gradient(90deg, var(--bg-elevated) 25%, #2a2a35 50%, var(--bg-elevated) 75%);
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, #232838 50%, var(--bg-elevated) 75%);
   background-size: 200% 100%;
   animation: skeleton 1.5s infinite;
   border-radius: var(--radius-sm);
@@ -134,9 +137,10 @@ input, select {
 }
 
 .navbar--scrolled {
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(12, 14, 20, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.15);
 }
 
 .navbar__logo {
@@ -144,11 +148,11 @@ input, select {
 }
 
 .navbar__logo a {
-  font-family: 'Suez One', serif;
-  font-size: 1.65rem;
-  font-weight: 400;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--accent);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .navbar__logo a:hover { color: var(--accent-hover); }
@@ -165,11 +169,11 @@ input, select {
 .navbar__center a {
   font-size: 0.95rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.9);
-  transition: color 0.2s;
+  color: var(--text-muted);
+  transition: color 0.25s;
 }
 
-.navbar__center a:hover { color: white; }
+.navbar__center a:hover { color: var(--accent); }
 
 .navbar__right {
   display: flex;
@@ -243,6 +247,7 @@ input, select {
 }
 
 .hero__title {
+  font-family: 'Outfit', sans-serif;
   font-size: 3.5rem;
   font-weight: 700;
   line-height: 1.1;
@@ -250,7 +255,7 @@ input, select {
   letter-spacing: -0.02em;
 }
 
-.hero__title-accent { color: var(--accent); }
+.hero__title-accent { color: var(--accent); text-shadow: 0 0 40px var(--accent-glow); }
 
 .hero__subtitle {
   font-size: 1.35rem;
@@ -274,7 +279,9 @@ input, select {
 .hero__badge {
   padding: 10px 20px;
   border-radius: 24px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: var(--accent);
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -299,8 +306,9 @@ input, select {
 }
 
 .netflix-row__title {
+  font-family: 'Outfit', sans-serif;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -310,21 +318,23 @@ input, select {
 }
 
 .netflix-row__arrows button {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  color: white;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  color: var(--accent);
   font-size: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.25s, transform 0.25s;
+  transition: all 0.25s;
 }
 
 .netflix-row__arrows button:hover {
-  background: rgba(255,255,255,0.2);
-  transform: scale(1.05);
+  background: var(--accent);
+  color: var(--bg-dark);
+  transform: scale(1.08);
 }
 
 .netflix-row__track {
@@ -344,14 +354,14 @@ input, select {
 .netflix-card {
   flex-shrink: 0;
   width: 260px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s;
 }
 
 .netflix-card:hover {
   transform: scale(1.08);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(6, 182, 212, 0.2);
 }
 
 .netflix-card__img-wrap {
@@ -414,7 +424,7 @@ input, select {
 
 .netflix-card__progress-bar {
   height: 100%;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
   transition: width 0.3s;
 }
 
@@ -471,11 +481,12 @@ input, select {
 }
 
 .movie-detail__title {
+  font-family: 'Outfit', sans-serif;
   font-size: 3.5rem;
   font-weight: 700;
   margin: 0 0 16px;
   line-height: 1.1;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 24px rgba(0,0,0,0.6);
 }
 
 .movie-detail__meta {
@@ -546,8 +557,8 @@ input, select {
   border-radius: var(--radius);
   max-width: 440px;
   width: 100%;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: var(--shadow);
+  border: 1px solid rgba(6, 182, 212, 0.12);
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,0.03);
 }
 
 .disclaimer-card { max-width: 560px; }
@@ -578,12 +589,13 @@ input, select {
 .auth-card input:focus, .search-bar input:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .auth-card input::placeholder { color: var(--text-muted); }
 
 .auth-card .error {
-  color: var(--accent);
+  color: #f87171;
   margin: 0;
   font-size: 0.9rem;
 }
@@ -594,7 +606,11 @@ input, select {
 
 .auth-card a, .disclaimer-actions .btn { color: var(--accent); }
 
-.auth-demo { margin-top: 24px; text-align: center; }
+.auth-demo { margin-top: 24px; text-align: center; padding-top: 20px; border-top: 1px solid rgba(6, 182, 212, 0.15); }
+
+.auth-demo-title { font-size: 0.85rem; color: var(--text-muted); margin: 0 0 6px; }
+
+.auth-demo-creds { font-size: 0.8rem; color: var(--text-muted); margin: 0 0 12px; direction: ltr; }
 
 .btn-demo {
   background: transparent;
@@ -605,7 +621,7 @@ input, select {
   cursor: pointer;
 }
 
-.btn-demo:hover { color: var(--accent); }
+.btn-demo:hover { color: var(--accent-hover); }
 
 .disclaimer-text { margin: 24px 0; }
 
@@ -626,19 +642,20 @@ input, select {
 
 .plan-card {
   background: var(--bg-elevated);
-  padding: 24px;
+  padding: 28px;
   border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(6, 182, 212, 0.12);
   transition: all var(--transition);
 }
 
 .plan-card:hover {
   border-color: var(--accent);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.3);
 }
 
 .plan-card .devices {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--accent);
   margin: 8px 0;
@@ -834,7 +851,7 @@ input, select {
   padding: 32px;
   border-radius: var(--radius);
   max-width: 480px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(6, 182, 212, 0.12);
 }
 
 .profile-page h1, .devices-page h1 {
@@ -888,7 +905,7 @@ input, select {
 
 .admin-dashboard nav a:hover {
   background: var(--accent);
-  color: white;
+  color: var(--bg-dark);
 }
 
 .admin-table {
@@ -964,7 +981,7 @@ input, select {
   text-align: center;
 }
 
-.not-found h1 { font-size: 6rem; margin: 0; opacity: 0.3; }
+.not-found h1 { font-size: 6rem; margin: 0; opacity: 0.15; color: var(--accent); }
 
 .not-found p { color: var(--text-muted); font-size: 1.2rem; }
 

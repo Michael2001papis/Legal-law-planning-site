@@ -1,0 +1,22 @@
+# Render - הפעלה אוטומטית מהגיטהאב
+# חיבור: https://dashboard.render.com -> New -> Web Service -> Connect GitHub repo
+# הגדר: MONGODB_URI, JWT_SECRET, CLIENT_URL
+
+services:
+  - type: web
+    name: mp-movies-api
+    runtime: node
+    rootDir: server
+
+    buildCommand: npm install
+    startCommand: npm start
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

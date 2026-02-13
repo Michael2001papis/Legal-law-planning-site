@@ -6,6 +6,7 @@ import { moviesApi } from '../services/api';
 import { userApi } from '../services/api';
 import { useAuth } from '../store/authStore';
 import { getDemoMovies } from '../data/demoMovies';
+import { isDemoUser } from '../utils/isDemo';
 
 export default function Home() {
   const { user } = useAuth();
@@ -16,8 +17,14 @@ export default function Home() {
 
   useEffect(() => {
     const load = async () => {
+      const plan = user?.plan || 'basic';
+      if (isDemoUser()) {
+        setMovies(getDemoMovies(plan));
+        setContinueWatching([]);
+        setLoading(false);
+        return;
+      }
       try {
-        const plan = user?.plan || 'basic';
         const [moviesRes, cwRes] = await Promise.all([
           moviesApi.list({ plan, limit: 24 }),
           userApi.continueWatching().catch(() => ({})),

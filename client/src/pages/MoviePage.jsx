@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import { moviesApi } from '../services/api';
 import { useAuth } from '../store/authStore';
 import { getDemoMovie, getDemoMovies } from '../data/demoMovies';
+import { isDemoUser } from '../utils/isDemo';
 
 export default function MoviePage() {
   const { id } = useParams();
@@ -15,6 +16,18 @@ export default function MoviePage() {
   const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
+    const plan = user?.plan || 'basic';
+    if (isDemoUser() || String(id).startsWith('demo')) {
+      const demo = getDemoMovie(id);
+      if (demo) {
+        setMovie(demo);
+        setSimilar(getDemoMovies(plan).filter((m) => m._id !== id));
+      } else {
+        setError('סרט לא נמצא');
+      }
+      setLoading(false);
+      return;
+    }
     moviesApi.get(id)
       .then((m) => {
         setMovie(m);

@@ -63,3 +63,8 @@ npm run dev
 - **basic** – מכשיר אחד, קטלוג מצומצם
 - **platinum** – עד 3 מכשירים, קטלוג מורחב
 - **diamond** – ללא הגבלה
+
+## הפעלה אוטומטית מהגיטהאב
+
+- **Frontend (Vercel):** כל push ל־main מעלה גרסה חדשה
+- **Backend (Render):** חיבור חד־פעמי – ראה [DEPLOY.md](./DEPLOY.md)

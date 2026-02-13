@@ -4,6 +4,7 @@ import MovieRow from '../components/MovieRow';
 import { moviesApi } from '../services/api';
 import { useAuth } from '../store/authStore';
 import { getDemoMovies } from '../data/demoMovies';
+import { isDemoUser } from '../utils/isDemo';
 
 export default function Search() {
   const { user } = useAuth();
@@ -13,6 +14,15 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (isDemoUser()) {
+      setLoading(true);
+      let demo = getDemoMovies(user?.plan);
+      if (query) demo = demo.filter((m) => m.title?.toLowerCase().includes(query.toLowerCase()));
+      if (genre) demo = demo.filter((m) => m.genres?.includes(genre));
+      setMovies(demo);
+      setLoading(false);
+      return;
+    }
     if (!query && !genre) {
       setMovies([]);
       return;
@@ -46,11 +56,13 @@ export default function Search() {
             <option value="קומדיה">קומדיה</option>
             <option value="אקשן">אקשן</option>
             <option value="מדע בדיוני">מדע בדיוני</option>
+            <option value="רומנטי">רומנטי</option>
+            <option value="מתח">מתח</option>
           </select>
         </div>
         {loading && <p className="search-loading">טוען...</p>}
-        {movies.length > 0 && <MovieRow title="תוצאות" items={movies} />}
-        {!loading && !query && !genre && (
+        {movies.length > 0 && <MovieRow title={query || genre ? "תוצאות" : "כל הסרטים"} items={movies} />}
+        {!loading && !isDemoUser() && !query && !genre && (
           <p className="empty-state">התחל לחפש סרטים</p>
         )}
         {!loading && (query || genre) && movies.length === 0 && (
